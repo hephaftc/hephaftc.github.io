@@ -183,6 +183,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Photo Gallery
+    const photoGrid = document.querySelector('.photo-grid');
+    const modal = document.getElementById('photo-modal');
+    const modalImg = document.getElementById('modal-image');
+    const closeModal = document.querySelector('.close-modal');
+
+    if (photoGrid) {
+        const photos = [
+            { src: 'unnamed (4).jpg' },
+            { src: 'unnamed (3).jpg' },
+            { src: 'unnamed (2).jpg' }
+        ];
+
+        photos.forEach(photo => {
+            const photoItem = document.createElement('div');
+            photoItem.className = 'photo-item';
+            photoItem.innerHTML = `
+                <img src="${photo.src}" alt="">
+            `;
+            
+            photoItem.addEventListener('click', () => {
+                modal.classList.add('is-open');
+                modalImg.src = photo.src;
+            });
+
+            // Apply initial animation styles and observe
+            photoItem.style.opacity = '0';
+            photoItem.style.transform = 'translateY(30px)';
+            photoItem.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            
+            photoGrid.appendChild(photoItem);
+            observer.observe(photoItem);
+        });
+
+        closeModal.onclick = function() {
+            modal.classList.remove('is-open');
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.classList.remove('is-open');
+            }
+        }
+    }
+
     // Search functionality (basic implementation)
     function createSearchBox() {
         const searchBox = document.createElement('div');
